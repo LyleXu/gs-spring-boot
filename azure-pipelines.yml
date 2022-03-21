@@ -1,0 +1,24 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'complete/pom.xml'
+- task: AzureSpringCloud@0
+  inputs:
+    azureSubscription: 'petclinic-connection'
+    Action: 'Deploy'
+    AzureSpringCloud: ascpetclinicentdev002
+    AppName: test1
+    UseStagingDeployment: false
+    DeploymentName: 'default'
+    Package: ./target/*SNAPSHOT.jar
